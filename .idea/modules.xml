@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/GSASpark.iml" filepath="$PROJECT_DIR$/.idea/modules/GSASpark.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/GSASpark_main.iml" filepath="$PROJECT_DIR$/.idea/modules/GSASpark_main.iml" group="GSASpark" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/GSASpark_test.iml" filepath="$PROJECT_DIR$/.idea/modules/GSASpark_test.iml" group="GSASpark" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GenericSocialAppSpark.iml" filepath="$PROJECT_DIR$/.idea/modules/GenericSocialAppSpark.iml" />
     </modules>
   </component>
 </project>
