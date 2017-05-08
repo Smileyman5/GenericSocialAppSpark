@@ -26,10 +26,10 @@
                             </div>
                         </form>
                     </li>
-                    <li><a href="/home">Profile</a></li>
-                    <li><a href="/home/friends">Friends</a></li>
-                    <li><a href="/home/settings">Settings</a></li>
-                    <li><a class="red-text" href="/">Logout</a></li>
+                    <li><a href="$WebPath.HOME()">Profile</a></li>
+                    <li><a href="$WebPath.HOME()$WebPath.FRIENDS()">Friends</a></li>
+                    <li><a href="$WebPath.HOME()$WebPath.SETTINGS()">Settings</a></li>
+                    <li><a class="red-text" href="$WebPath.LOGOUT()">Logout</a></li>
                 </ul>
                 <ul class="right hide-on-med-and-down">
                     <li>
@@ -41,13 +41,13 @@
                             </div>
                         </form>
                     </li>
-                    <li><a href="/home/friends">Friends</a></li>
-                    <li><a href="/home/settings">Settings</a></li>
-                    <li><a href="/">Logout</a></li>
+                    <li><a href="$WebPath.HOME()$WebPath.FRIENDS()">Friends</a></li>
+                    <li><a href="$WebPath.HOME()$WebPath.SETTINGS()">Settings</a></li>
+                    <li><a href="$WebPath.LOGOUT()">Logout</a></li>
                 </ul>
                 <a href="#" data-activates="slide-out" class="button-collapse right"><i class="material-icons">menu</i></a>
 
-                <a href="/home" class="brand-logo left">Hello, @username!</a>
+                <a href="$WebPath.HOME()" class="brand-logo left">Hello, $currentUser</a>
 
             </div>
         </nav>

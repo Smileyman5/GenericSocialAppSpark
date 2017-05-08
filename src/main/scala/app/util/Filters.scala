@@ -15,4 +15,13 @@ object Filters {
 
     foo(request, response)
   }
+
+  var removeDuplicateSlashes: Filter = (request, response) => {
+    def foo(request: Request, response: Response) = {
+      if (request.pathInfo.contains("//")) response.redirect(request.pathInfo.replaceAll("//", "/"))
+    }
+
+    foo(request, response)
+  }
+
 }

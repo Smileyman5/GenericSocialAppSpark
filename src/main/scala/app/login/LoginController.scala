@@ -1,18 +1,20 @@
 package app.login
 
-import app.util.Path
-import spark.template.velocity.VelocityTemplateEngine
-import spark.{ModelAndView, Route}
-
-import scala.collection.mutable
+import app.util.{Path, ViewUtil}
+import spark.Route
 
 /**
   * Created by alex on 5/7/2017.
   */
 object LoginController {
-  def displayPage(): Route = (_, _) => {
-//    request.session().invalidate()
-    new VelocityTemplateEngine().render(new ModelAndView(new java.util.HashMap(), Path.Template.LOGIN))
+
+  def displayPage(): Route = (request, _) => {
+    request.session().attributes().clear()
+    ViewUtil.render(request, new java.util.HashMap(), Path.Template.LOGIN)
+  }
+
+  def login(): Route = (_, _) => {
+    ""
   }
 
 }

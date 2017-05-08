@@ -1,4 +1,4 @@
 #parse("/velocity/profileLayout.vm")
 #@mainLayout()
-    <h1>$msg.get("ERROR_404_NOT_FOUND")</h1>
+    <h3 style="text-align: center">Sorry, but the page you were looking for could not be found. :/</h3>
 #end

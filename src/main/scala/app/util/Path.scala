@@ -8,7 +8,7 @@ import lombok._
 object Path {
 
   object Web {
-    @Getter val INDEX = "/index/"
+    @Getter val INDEX = "/"
     @Getter val PROFILE = "/profile/"
     @Getter val LOGOUT = "/logout/"
     @Getter val FRIENDS = "/friends/"
@@ -16,6 +16,12 @@ object Path {
     @Getter val HOME = "/home/"
     @Getter val USER = "/user/"
     @Getter val LOGIN = "/login/"
+    @Getter val POST = "/post/"
+    @Getter val RESTFUL = "/restful/"
+    @Getter val RPROFILE = "/profile/:username/"
+    @Getter val RRECOMMEND = "/recommend/:username/"
+    @Getter val RSEARCH = "/search/:username/"
+
   }
 
   object Template {
