@@ -1,8 +1,5 @@
-package app;
-
-import app.util.DBManager;
-import app.util.ViewUtil;
-import spark.Route;
+import spark.*;
+import spark.template.velocity.VelocityTemplateEngine;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,7 +13,7 @@ import java.util.HashMap;
 public class RegisterController {
 
     public static Route GET = (req, res) -> {
-        return ViewUtil.render(req, new HashMap<>(), "templates/register.vtl");
+        return new VelocityTemplateEngine().render(new ModelAndView(new HashMap(), "templates/register.vtl"));
     };
 
     public static Route POST = (req, res) -> {
@@ -41,28 +38,28 @@ public class RegisterController {
             map.put("message", "User Already Exists");
         }
 
-        return ViewUtil.render(req, map, "templates/register.vtl");
+        return new VelocityTemplateEngine().render(new ModelAndView(map, "templates/register.vtl"));
     };
 
     private static boolean createUser(String username, String password) {
-        Connection con = null;
-        Statement state = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", DBManager.username(), DBManager.password());
-            state = con.createStatement();
-            state.execute("INSERT INTO Users VALUES ('" + username + "', '" + password + "', '', '', '', '', 0)");
-        } catch (SQLException | ClassNotFoundException e) {
-            return false;
-        } finally {
-            try {
-                if (state != null) { state.close(); }
-                if (con != null) { con.close(); }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return true;
-//        return DatabaseQuery.execute("INSERT INTO Users VALUES ('" + username + "', '" + password + "', '', '', '', '', 0)");
+//        Connection con = null;
+//        Statement state = null;
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "root", "");
+//            state = con.createStatement();
+//            state.execute("INSERT INTO Users VALUES ('" + username + "', '" + password + "', '', '', '', '', 0)");
+//        } catch (SQLException | ClassNotFoundException e) {
+//            return false;
+//        } finally {
+//            try {
+//                if (state != null) { state.close(); }
+//                if (con != null) { con.close(); }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return true;
+        return DatabaseQuery.execute("INSERT INTO Users VALUES ('" + username + "', '" + password + "', '', '', '', '', 0)");
     }
 }

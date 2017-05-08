@@ -1,0 +1,228 @@
+<html><head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+    <title>Profile</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" rel="stylesheet" type="text/css">
+
+    <script>
+
+        window.onload = function WindowLoad(event) {
+            #if ($fname)
+                document.getElementById('firstName').value = "$fname";
+            #end
+            #if ($lname)
+                document.getElementById('lastName').value = "$lname";
+            #end
+            #if ($bday)
+                document.getElementById('birthday').value = "$bday";
+            #end
+            #if ($gender)
+                document.getElementById('gender').value = "$gender";
+            #end
+        };
+
+
+
+        function getUserData() {
+
+            let req = new XMLHttpRequest();
+
+            req.onreadystatechange = function() {
+
+                if (req.readyState === 4 && req.status === 200) {
+
+                    let res = JSON.parse(req.responseText);
+
+                    console.log(res);
+
+                    document.getElementById('firstName').value = res['fname'];
+
+                    document.getElementById('lastName').value = res['lname'];
+
+                    document.getElementById('birthday').value = res['bday'];
+
+                    document.getElementById('gender').value = res['gender'];
+
+                }
+
+            };
+
+            req.open("GET", "http://localhost:8080/stats/", true);
+
+            req.send(null);
+
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+<div class="navbar-fixed">
+
+    <nav class="nav-extended">
+
+        <div class="nav-wrapper blue">
+
+            <ul class="right side-nav" id="slide-out" style="left: -250px;">
+
+                <li class="logo center">
+
+                    <img width="64" height="64" class="circle" alt="" src="https://www.drupal.org/files/profile_default.jpg">
+
+                </li>
+
+                <li class="search">
+
+                    <form action="javascript:search(document.getElementById('search1').getElementsByClassName('black-text')[0].value, 0)" autocomplete="off">
+
+                        <div class="search-wrapper" id="search1">
+
+                            <input class="black-text" id="search">
+
+                            <div class="search-results"></div>
+
+                        </div>
+
+                    </form>
+
+                </li>
+
+                <li><a href="/profile">Profile</a></li>
+
+                <li><a href="/profile/friends">Friends</a></li>
+
+                <li><a href="/profile/settings">Settings</a></li>
+
+                <li><a class="red-text" href="/">Logout</a></li>
+
+            </ul>
+
+            <ul class="right hide-on-med-and-down">
+
+                <li>
+
+                    <form action="javascript:search(document.getElementById('search2').getElementsByClassName('mainSearchBar')[0].value, 1)" autocomplete="off">
+
+                        <div class="input-field" id="search2" style="height: 64px">
+
+                            <input class="mainSearchBar" id="searcher" type="search">
+
+                            <label for="searcher"><i class="material-icons">search</i></label>
+
+                            <div class="search-results blue"></div>
+
+                        </div>
+
+                    </form>
+
+                </li>
+
+                <li><a href="/profile/friends">Friends</a></li>
+
+                <li><a href="#">Settings</a></li>
+
+                <li><a href="/">Logout</a></li>
+
+            </ul>
+
+            <a class="button-collapse right" href="#" data-activates="slide-out"><i class="material-icons">menu</i></a>
+
+
+
+            <a class="brand-logo left" href="/profile">Hello, $username!</a>
+
+
+
+        </div>
+
+    </nav>
+
+</div>
+
+
+
+<!-- Main Content Start -->
+
+<div class="row">
+
+    <div class="center col s12 -text" id="message" style="font-size: 24px">
+
+        #if ($message)
+            $message
+        #end
+
+    </div>
+
+</div>
+
+
+
+<form name="settingsForm" class="center-on-small-only" id="settingsForm" style="margin-left: 25%; width: 50%" action="/profile/settings" method="post"><input name="_method" id="_method" type="hidden" value="PUT">
+
+    <div class="fieldcontain">
+
+        <label class="active" for="password">Password</label>
+
+        <input name="password" type="password" placeholder="Change your password.">
+
+
+
+    </div>
+
+    <div class="fieldcontain">
+
+        <label class="active" for="firstName">First Name</label><input name="firstName" id="firstName" type="text" placeholder="Change your first name." value="">
+
+    </div>
+
+    <div class="fieldcontain">
+
+        <label class="active" for="lastName">Last Name</label><input name="lastName" id="lastName" type="text" placeholder="Change your last name." value="">
+
+    </div>
+
+    <label for="birthday">Birthday</label>
+
+    <input name="birthday" class="datepicker" id="birthday" type="date" form="settingsForm" property="birthday">
+
+    <div class="fieldcontain">
+
+        <label class="active" for="gender">Gender</label><input name="gender" id="gender" type="text" placeholder="Change your gender. (Male/Female)" value="">
+
+    </div>
+
+    <input name="Update" id="Update" type="submit" value="Update">
+
+</form>
+
+<!--  Main Content End  -->
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js" type="text/javascript"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js" type="text/javascript"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        $('.button-collapse').sideNav();
+
+    })
+
+
+
+    $('#textarea1').trigger('autoresize');
+
+</script>
+
+
+
+<div class="hiddendiv common"></div><div class="drag-target" style="left: 0px; -ms-content-zooming: none; -ms-touch-select: none; touch-action: pan-y; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div></body></html>
