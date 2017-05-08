@@ -16,6 +16,150 @@
             height: 5px;
         }
     </style>
+
+    <script>
+        /**
+         * Created by alex on 5/8/2017.
+         */
+        window.onload = function WindowLoad(event) {
+            getProfile();
+            getRecs();
+        };
+
+        function getRecs() {
+            let req = new XMLHttpRequest();
+            req.onreadystatechange = function() {
+                if (req.readyState === 4 && req.status === 200) {
+                    let res = JSON.parse(req.responseText);
+                    document.getElementById('friendRec').innerHTML = "<br/><br/><div class='container'>" +
+                            "   <div class='row'>\n";
+                    for (index in res)
+                        document.getElementById('friendRec').innerHTML += "   <div class='col s12 m4 z-depth-2'>" +
+                                "       <div class='icon-block'>" +
+                                "           <h2 class='center'><img src=\"https://www.drupal.org/files/profile_default.jpg\" alt=\"\" class=\"circle\" width='42' height='42'></h2>\n" +
+                                "           <h5 class='center'>" + res[index] + "</h5>\n" +
+                                "           <p class='center'>" +
+                                "               <a href='#' onclick='updateFriends(" + res[index] + ", POST)' class=\"btn-floating halfway-fab waves-effect waves-light blue\"><i class=\"material-icons\">add</i></a>" +
+                                "           </p>\n" +
+                                "       </div>\n" +
+                                "   </div>\n";
+
+                    document.getElementById('friendRec').innerHTML += "   </div>\n" +
+                            "</div>\n";
+                }
+            };
+            req.open("GET", "http://localhost:8080/restful/recommend/$currentUser", true);
+            req.accept = "application/json";
+            req.send(null);
+        }
+
+        function search(name, item) {
+            let req = new XMLHttpRequest();
+            req.onreadystatechange = function() {
+                if (req.readyState === 4 && req.status === 200) {
+                    let res = JSON.parse(req.responseText);
+                    document.getElementsByClassName("search-results").item(item).innerHTML = "";
+                    for (index in res)
+                        document.getElementsByClassName("search-results").item(item).innerHTML += "<a style='z-index: 5' href='#!'>" + res[index] + "</a>\n"
+                }
+            };
+            req.open("GET", "http://localhost:8080/restful/search/" + name, true);
+            req.accept = "application/json";
+            req.send(null);
+        }
+
+        function formatC(j) {
+            let json = j['friend'];
+            let list = "<br/><br/><div class='container'>" +
+                    "   <div class='row'>\n";
+            for (index in json) {
+                list += "   <div class='col s12 m4 z-depth-2'>" +
+                        "       <div class='icon-block'>" +
+                        "           <h2 class='center'><img src=\"https://www.drupal.org/files/profile_default.jpg\" alt=\"\" class=\"circle\" width='42' height='42'></h2>\n" +
+                        "           <h5 class='center'>" + json[index].toString() + "</h5>\n" +
+                        "       </div>\n" +
+                        "   </div>\n";
+            }
+            list += "   </div>\n" +
+                    "</div>\n";
+            return list;
+        }
+
+        function formatP(j) {
+            let json = j['pending'];
+            let list = "<br/><br/><div class='container'>" +
+                    "   <div class='row'>\n";
+            for (index in json) {
+                list += "   <div class='col s12 m4 z-depth-2'>" +
+                        "       <div class='icon-block'>" +
+                        "           <h2 class='center'><img src=\"https://www.drupal.org/files/profile_default.jpg\" alt=\"\" class=\"circle\" width='42' height='42'></h2>\n" +
+                        "           <h5 class='center'>" + json[index].toString() + "</h5>\n" +
+                        "           <p class='center'>" +
+                        "               <a onclick=\"updateFriends('" + json[index].toString() + "', 'PUT')\" class=\"btn-floating halfway-fab waves-effect waves-light blue\"><i class=\"material-icons\">add</i></a>" +
+                        "               <a onclick=\"updateFriends('" + json[index].toString() + "', 'DELETE')\" class=\"btn-floating halfway-fab waves-effect waves-light red\"><i class=\"material-icons\">remove</i></a>\n" +
+                        "           </p>\n" +
+                        "       </div>\n" +
+                        "   </div>\n";
+            }
+            list += "   </div>\n" +
+                    "</div>\n";
+            return list;
+        }
+
+        function formatR(j) {
+            let json = j['request'];
+            let list = "<br/><br/><div class='container'>" +
+                    "   <div class='row'>\n";
+            console.log(json);
+            for (index in json) {
+                list += "   <div class='col s12 m4 z-depth-2'>" +
+                        "       <div class='icon-block'>" +
+                        "           <h2 class='center'><img src=\"https://www.drupal.org/files/profile_default.jpg\" alt=\"\" class=\"circle\" width='42' height='42'></h2>\n" +
+                        "           <h5 class='center'>" + json[index].toString() + "</h5>\n" +
+                        "       </div>\n" +
+                        "   </div>\n";
+            }
+            list += "   </div>\n" +
+                    "</div>\n";
+            return list;
+        }
+
+        function getProfile() {
+            let req = new XMLHttpRequest();
+            req.onreadystatechange = function() {
+                if (req.readyState == 4 && req.status == 200) {
+                    let res = JSON.parse(req.responseText);
+
+                    document.getElementById('friend').innerHTML = "";
+                    document.getElementById('request').innerHTML = "";
+                    document.getElementById('pending').innerHTML = "";
+
+                    document.getElementById('friend').innerHTML = (res.friend.length != 0) ? formatC(res) : "<p class='center blue-text' style='font-size: 24px'>No Friends Yet :/</p>";
+                    document.getElementById('pending').innerHTML = (res.request.length != 0) ? formatR(res) : "<p class='center blue-text' style='font-size: 24px'>No Friend Requests Sent :/</p>";
+                    document.getElementById('request').innerHTML = (res.pending.length != 0) ? formatP(res) : "<p class='center blue-text' style='font-size: 24px'>No Friend Requests Yet :/</p>";
+                    if (res.message !== null && res.message !== undefined)
+                        document.getElementsByClassName('search-results').innerHTML = res.message;
+                }
+            };
+            req.open("GET", "http://localhost:8080/restful/profile/$currentUser", true);
+            req.accept = "application/json";
+            req.send(null);
+        }
+
+        function updateFriends(user, request) {
+            let req = new XMLHttpRequest();
+            req.onreadystatechange = function() {
+                if (req.readyState == 4 && req.status == 200) {
+                    getProfile("");
+                    getRecs();
+                }
+            };
+            req.open(request, "http://localhost:8080/home/friends/" + user, true);
+            req.accept = "application/json";
+            req.send(null);
+        }
+    </script>
+
 </head>
 $bodyContent
 </html>

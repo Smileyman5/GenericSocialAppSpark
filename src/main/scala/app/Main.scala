@@ -38,9 +38,9 @@ object Main {
       delete (Path.Web.POST,       PostsController.removePost())
 
       get    (Path.Web.FRIENDS,    ProfileFriendsController.displayPage())
-      post   (Path.Web.FRIENDS,    FriendsController.POST)
-      put    (Path.Web.FRIENDS,    FriendsController.PUT)
-      delete (Path.Web.FRIENDS,    FriendsController.DELETE)
+      post   (Path.Web.RFRIENDS,   FriendsController.POST)
+      put    (Path.Web.RFRIENDS,   FriendsController.PUT)
+      delete (Path.Web.RFRIENDS,   FriendsController.DELETE)
 
       get    (Path.Web.SETTINGS,   SettingsController.GET)
       post   (Path.Web.SETTINGS,   SettingsController.POST)

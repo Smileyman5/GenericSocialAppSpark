@@ -1,5 +1,6 @@
 package app;
 
+import app.util.DBManager;
 import spark.Route;
 
 import java.sql.Connection;
@@ -49,7 +50,7 @@ public class FriendsController {
         Statement state = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", DBManager.username(), DBManager.password());
             state = con.createStatement();
             state.execute(sql);
         } catch (SQLException | ClassNotFoundException e) {

@@ -1,5 +1,6 @@
 package app;
 
+import app.util.DBManager;
 import app.util.ViewUtil;
 import spark.Route;
 
@@ -19,7 +20,7 @@ public class SettingsController {
         map.put("username", username);
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", DBManager.username(), DBManager.password());
             state = con.createStatement();
             ResultSet set = state.executeQuery("SELECT * FROM users WHERE username = '" + username + "'");
             if (set.next()) {
@@ -73,7 +74,7 @@ public class SettingsController {
         Statement state = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", DBManager.username(), DBManager.password());
             state = con.createStatement();
             state.execute("UPDATE Users SET password='" + password + "' WHERE username='" + username + "'");
             state.execute("UPDATE Users SET firstname='" + firstname + "' WHERE username='" + username + "'");

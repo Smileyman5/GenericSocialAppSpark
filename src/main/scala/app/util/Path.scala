@@ -12,6 +12,7 @@ object Path {
     @Getter val PROFILE = "/profile/"
     @Getter val LOGOUT = "/logout/"
     @Getter val FRIENDS = "/friends/"
+    @Getter val RFRIENDS = "/friends/:friend/"
     @Getter val SETTINGS = "/settings/"
     @Getter val HOME = "/home/"
     @Getter val USER = "/user/"
@@ -20,7 +21,9 @@ object Path {
     @Getter val RESTFUL = "/restful/"
     @Getter val RPROFILE = "/profile/:username/"
     @Getter val RRECOMMEND = "/recommend/:username/"
+    @Getter val RECOMMEND = "/recommend/"
     @Getter val RSEARCH = "/search/:username/"
+    @Getter val SEARCH = "/search/"
     @Getter val REGISTER = "/register/"
 
   }
