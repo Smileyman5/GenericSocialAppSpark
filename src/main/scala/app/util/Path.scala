@@ -9,9 +9,11 @@ object Path {
 
   object Web {
     @Getter val INDEX = "/"
+    @Getter val UINDEX = "/:username/"
     @Getter val PROFILE = "/profile/"
     @Getter val LOGOUT = "/logout/"
     @Getter val FRIENDS = "/friends/"
+    @Getter val UFRIENDS = "/friends/:username/"
     @Getter val RFRIENDS = "/friends/:friend/"
     @Getter val SETTINGS = "/settings/"
     @Getter val HOME = "/home/"

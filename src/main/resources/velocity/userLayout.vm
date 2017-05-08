@@ -26,9 +26,9 @@
                         </div>
                     </form>
                 </li>
-                <!-- Links to other users page not logged in one -->
-                <li><a href="$WebPath.USER()">Profile</a></li>
-                <li><a href="$WebPath.USER()$WebPath.FRIENDS()">Friends</a></li>
+                <li><a href="$WebPath.USER()$displayedUser">Profile</a></li>
+                <li><a href="$WebPath.USER()$WebPath.FRIENDS()$displayedUser">Friends</a></li>
+                <li><a href="$WebPath.HOME()">Back Home</a></li>
                 <li><a class="red-text" href="$WebPath.LOGOUT()">Logout</a></li>
             </ul>
             <ul class="right hide-on-med-and-down">
@@ -41,15 +41,14 @@
                         </div>
                     </form>
                 </li>
-                <!-- Links to other users page not logged in one -->
-                <li><a href="$WebPath.USER()">Profile</a></li>
-                <li><a href="$WebPath.USER()$WebPath.FRIENDS()">Friends</a></li>
+                <li><a href="$WebPath.USER()$WebPath.FRIENDS()$displayedUser">Friends</a></li>
+                <li><a href="$WebPath.HOME()">Back Home</a></li>
                 <li><a href="$WebPath.LOGOUT()">Logout</a></li>
             </ul>
             <a href="#" data-activates="slide-out" class="button-collapse right"><i class="material-icons">menu</i></a>
 
             <!-- Back to logged in user's home -->
-            <a href="$WebPath.HOME()" class="brand-logo left">Home</a>
+            <a href="$WebPath.USER()$displayedUser" class="brand-logo left">$displayedUser's Home Page</a>
 
         </div>
     </nav>

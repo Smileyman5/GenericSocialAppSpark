@@ -33,7 +33,7 @@ object Main {
       get    (Path.Web.INDEX,      ProfileMainController.displayPage())
       post   (Path.Web.INDEX,      ProfileMainController.updateUser())
 
-      get    (Path.Web.POST,       PostsController.getAllPostsByName())
+      get    (Path.Web.POST,       PostsController.getAllPostsByName)
       post   (Path.Web.POST,       PostsController.post())
       delete (Path.Web.POST,       PostsController.removePost())
 
@@ -48,8 +48,8 @@ object Main {
     })
 
     path(Path.Web.USER, () => {
-      get    (Path.Web.INDEX,      UserController.displayPage())
-      get    (Path.Web.FRIENDS,    UserFriendController.displayPage())
+      get    (Path.Web.UINDEX,     UserController.displayPage())
+      get    (Path.Web.UFRIENDS,   UserFriendController.displayPage())
     })
 
     path(Path.Web.RESTFUL, () => {

@@ -7,7 +7,7 @@ import spark.Route
   */
 object PostsController {
 
-  def getAllPostsByName(): Route = (_, _) => {
+  def getAllPostsByName: Route = (_, _) => {
     ""
   }
 
