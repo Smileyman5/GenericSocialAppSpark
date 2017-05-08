@@ -38,11 +38,12 @@ object Main {
       delete (Path.Web.POST,       PostsController.removePost())
 
       get    (Path.Web.FRIENDS,    ProfileFriendsController.displayPage())
-      post   (Path.Web.FRIENDS,    ProfileFriendsController.addFriend())
-      put    (Path.Web.FRIENDS,    ProfileFriendsController.confirmFriend())
-      delete (Path.Web.FRIENDS,    ProfileFriendsController.declineFriend())
+      post   (Path.Web.FRIENDS,    FriendsController.POST)
+      put    (Path.Web.FRIENDS,    FriendsController.PUT)
+      delete (Path.Web.FRIENDS,    FriendsController.DELETE)
 
-      get    (Path.Web.SETTINGS,   ProfileSettingsController.displayPage())
+      get    (Path.Web.SETTINGS,   SettingsController.GET)
+      post   (Path.Web.SETTINGS,   SettingsController.POST)
 
     })
 

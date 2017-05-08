@@ -1,6 +1,6 @@
 package app.util
 
-import app.util.RequestUtil.getSessionCurrentUser
+import app.util.RequestUtil._
 import org.apache.velocity.app._
 import org.eclipse.jetty.http._
 import spark._
@@ -19,12 +19,16 @@ object ViewUtil { // Renders a template given a model and a request
   }
 
   var notFound: Route = (request: Request, response: Response) => {
-    def foo(request: Request, response: Response) = {
-      response.status(HttpStatus.NOT_FOUND_404)
-      render(request, new java.util.HashMap[String, AnyRef], Path.Template.NOT_FOUND)
-    }
+    if (!clientAcceptsJson(request)) {
+      def foo(request: Request, response: Response) = {
+        response.status(HttpStatus.NOT_FOUND_404)
+        render(request, new java.util.HashMap[String, AnyRef], Path.Template.NOT_FOUND)
+      }
 
-    foo(request, response)
+      foo(request, response)
+    }
+    else
+      "{ 'error' : 'This page does not exist!' }"
   }
 
   private def strictVelocityEngine = {
