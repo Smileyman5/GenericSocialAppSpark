@@ -21,6 +21,7 @@ object Path {
     @Getter val RPROFILE = "/profile/:username/"
     @Getter val RRECOMMEND = "/recommend/:username/"
     @Getter val RSEARCH = "/search/:username/"
+    @Getter val REGISTER = "/register/"
 
   }
 

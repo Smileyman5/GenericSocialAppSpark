@@ -1,7 +1,5 @@
 package app
 
-import app.index.IndexController
-import app.login.LoginController
 import app.pages.PostsController
 import app.profile.{ProfileFriendsController, ProfileMainController, ProfileSettingsController}
 import app.users.{UserController, UserFriendController}
@@ -24,8 +22,12 @@ object Main {
     redirect.get(Path.Web.INDEX,  Path.Web.LOGIN)
     redirect.get(Path.Web.LOGOUT,  Path.Web.LOGIN)
 
-    get (Path.Web.LOGIN,           LoginController.displayPage())
-    post(Path.Web.LOGIN,           LoginController.login())
+    get (Path.Web.LOGIN,           LoginController.GET)
+    post(Path.Web.LOGIN,           LoginController.POST)
+
+    get (Path.Web.REGISTER,        RegisterController.GET)
+    post(Path.Web.REGISTER,        RegisterController.POST)
+
 
     path(Path.Web.HOME, () => {
       get    (Path.Web.INDEX,      ProfileMainController.displayPage())

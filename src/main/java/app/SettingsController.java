@@ -1,3 +1,5 @@
+package app;
+
 import app.util.ViewUtil;
 import spark.Route;
 

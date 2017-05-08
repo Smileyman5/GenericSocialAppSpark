@@ -1,3 +1,5 @@
+package app;
+
 import spark.Route;
 
 import java.sql.Connection;
