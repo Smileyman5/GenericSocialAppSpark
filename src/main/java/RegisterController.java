@@ -1,5 +1,5 @@
-import spark.*;
-import spark.template.velocity.VelocityTemplateEngine;
+import app.util.ViewUtil;
+import spark.Route;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class RegisterController {
 
     public static Route GET = (req, res) -> {
-        return new VelocityTemplateEngine().render(new ModelAndView(new HashMap(), "templates/register.vtl"));
+        return ViewUtil.render(req, new HashMap<>(), "templates/register.vtl");
     };
 
     public static Route POST = (req, res) -> {
@@ -38,7 +38,7 @@ public class RegisterController {
             map.put("message", "User Already Exists");
         }
 
-        return new VelocityTemplateEngine().render(new ModelAndView(map, "templates/register.vtl"));
+        return ViewUtil.render(req, map, "templates/register.vtl");
     };
 
     private static boolean createUser(String username, String password) {

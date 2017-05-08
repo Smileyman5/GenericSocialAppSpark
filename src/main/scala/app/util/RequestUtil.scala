@@ -7,6 +7,6 @@ import spark.Request
   */
 object RequestUtil {
   def getSessionCurrentUser(request: Request): String = {
-    request.session().attribute("currentUser")
+    request.session().attribute("username")
   }
 }

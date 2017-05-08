@@ -10,8 +10,8 @@ object ViewUtil { // Renders a template given a model and a request
   // The request is needed to check the user session for language settings
   // and to see if the user is logged in
   def render(request: Request, model: java.util.Map[String, AnyRef], templatePath: String): String = {
-    if (request.session().attribute("currentUser") == null)
-      request.session().attribute("currentUser", "Alex")
+    if (getSessionCurrentUser(request) == null)
+      request.session().attribute("username", "Alex")
 
     model.put("currentUser", getSessionCurrentUser(request))
     model.put("WebPath", Path.Web)

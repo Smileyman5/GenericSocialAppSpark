@@ -1,5 +1,5 @@
-import spark.*;
-import spark.template.velocity.*;
+import app.util.ViewUtil;
+import spark.Route;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class LoginController {
 
     public static Route GET = (req, res) -> {
-        return new VelocityTemplateEngine().render(new ModelAndView(new HashMap(), "templates/index.vtl"));
+        return ViewUtil.render(req, new HashMap<>(), "templates/index.vtl");
     };
 
     public static Route POST = (req, res) -> {
@@ -28,7 +28,7 @@ public class LoginController {
         else {
             map.put("message", "Username/Password incorrect");
         }
-        return new VelocityTemplateEngine().render(new ModelAndView(map, "templates/index.vtl"));
+        return ViewUtil.render(req, map, "templates/index.vtl");
     };
 
     private static boolean checkLogin(String username, String password) {

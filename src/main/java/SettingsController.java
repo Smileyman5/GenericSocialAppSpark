@@ -1,6 +1,5 @@
-import spark.ModelAndView;
+import app.util.ViewUtil;
 import spark.Route;
-import spark.template.velocity.VelocityTemplateEngine;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public class SettingsController {
             }
         }
 
-        return new VelocityTemplateEngine().render(new ModelAndView(map, "templates/settings.vtl"));
+        return ViewUtil.render(req, map, "templates/settings.vtl");
     };
 
     public static Route POST = (req, res) -> {
@@ -57,7 +56,7 @@ public class SettingsController {
             map.put("message", "Failed to Update");
         }
 
-        return new VelocityTemplateEngine().render(new ModelAndView(map, "templates/settings.vtl"));
+        return ViewUtil.render(req, map, "templates/settings.vtl");
     };
 
     private static boolean update(String username, String password, String firstname, String lastname, String birthday, String gender) {
