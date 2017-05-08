@@ -1,0 +1,4 @@
+#parse("/velocity/profileLayout.vm")
+#@mainLayout()
+    <h1>Hello World</h1>
+#end

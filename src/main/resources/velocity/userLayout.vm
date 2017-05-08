@@ -1,0 +1,76 @@
+#macro(mainLayout)
+<html>
+<head>
+    <title>Title</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="/main.css">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="navbar-fixed">
+    <nav class="nav-extended">
+        <div class="nav-wrapper blue">
+            <ul id="slide-out" class="right side-nav">
+                <li class="logo center">
+                    <img src="https://www.drupal.org/files/profile_default.jpg" alt="" class="circle" width="64" height="64">
+                </li>
+                <li class="search">
+                    <form action="javascript:search(document.getElementById('search1').getElementsByClassName('black-text')[0].value, 0)" autocomplete="off">
+                        <div id="search1" class="search-wrapper">
+                            <input id="search" class="black-text">
+                            <div class="search-results"></div>
+                        </div>
+                    </form>
+                </li>
+                <!-- Links to other users page not logged in one -->
+                <li><a href="/user">Profile</a></li>
+                <li><a href="/user/friends">Friends</a></li>
+                <li><a class="red-text" href="/">Logout</a></li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <form action="javascript:search(document.getElementById('search2').getElementsByClassName('mainSearchBar')[0].value, 1)" autocomplete="off">
+                        <div id="search2" class="input-field" style="height: 64px">
+                            <input id="search" type="search" class="mainSearchBar"/>
+                            <label for="search"><i class="material-icons">search</i></label>
+                            <div class="search-results blue"></div>
+                        </div>
+                    </form>
+                </li>
+                <!-- Links to other users page not logged in one -->
+                <li><a href="/user">Profile</a></li>
+                <li><a href="/user/friends">Friends</a></li>
+                <li><a href="/">Logout</a></li>
+            </ul>
+            <a href="#" data-activates="slide-out" class="button-collapse right"><i class="material-icons">menu</i></a>
+
+            <!-- Back to logged in user's home -->
+            <a href="/home" class="brand-logo left">Home</a>
+
+        </div>
+    </nav>
+</div>
+
+<!-- Main Content Start -->
+
+    $bodyContent
+
+<!--  Main Content End  -->
+
+<script type="text/javascript" src="/js/otherUserProfile.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.button-collapse').sideNav();
+    })
+
+    $('#textarea1').trigger('autoresize');
+</script>
+</body>
+</html>
+#end

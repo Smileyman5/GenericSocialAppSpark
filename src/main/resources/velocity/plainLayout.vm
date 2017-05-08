@@ -1,0 +1,22 @@
+#macro(mainLayout)
+<html>
+<head>
+    <title>Friends</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="/main.css">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        .tabs .indicator {
+            background-color: white;
+            height: 5px;
+        }
+    </style>
+</head>
+$bodyContent
+</html>
+#end

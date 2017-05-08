@@ -1,8 +1,8 @@
-package profile
+package app.search
 
 /**
   * Created by alex on 5/6/2017.
   */
-object Comment {
+object Friends {
 
 }

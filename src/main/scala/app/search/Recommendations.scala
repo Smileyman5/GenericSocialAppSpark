@@ -1,4 +1,4 @@
-package search
+package app.search
 
 /**
   * Created by alex on 5/6/2017.

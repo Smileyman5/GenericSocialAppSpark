@@ -1,0 +1,77 @@
+#parse("/velocity/plainLayout.vm")
+#@mainLayout()
+    <div class="navbar-fixed">
+        <nav class="nav-extended">
+            <div class="nav-wrapper blue">
+                <ul id="slide-out" class="right side-nav">
+                    <li class="logo center">
+                        <img src="https://www.drupal.org/files/profile_default.jpg" alt="" class="circle" width="64" height="64">
+                    </li>
+                    <li class="search">
+                        <form action="javascript:search(document.getElementById('search1').getElementsByClassName('black-text')[0].value, 0)" autocomplete="off">
+                            <div id="search1" class="search-wrapper">
+                                <input id="search" class="black-text">
+                                <div class="search-results"></div>
+                            </div>
+                        </form>
+                    </li>
+                    <li><a href="$WebPath.HOME()">Profile</a></li>
+                    <li><a href="$WebPath.FRIENDS()">Friends</a></li>
+                    <li><a href="$WebPath.SETTINGS()">Settings</a></li>
+                    <li><a class="red-text" href="$WebPath.LOGOUT()">Logout</a></li>
+                </ul>
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <form action="javascript:search(document.getElementById('search2').getElementsByClassName('mainSearchBar')[0].value, 1)" autocomplete="off">
+                            <div id="search2" class="input-field" style="height: 64px">
+                                <input id="search" type="search" class="mainSearchBar"/>
+                                <label for="search"><i class="material-icons">search</i></label>
+                                <div class="search-results blue"></div>
+                            </div>
+                        </form>
+                    </li>
+                    <li><a href="#!">Friends</a></li>
+                    <li><a href="$WebPath.SETTINGS()">Settings</a></li>
+                    <li><a href="$WebPath.LOGOUT()">Logout</a></li>
+                </ul>
+                <a href="#" data-activates="slide-out" class="button-collapse right"><i class="material-icons">menu</i></a>
+
+                <a href="$WebPath.HOME()" class="brand-logo left">Hello, $currentUser!</a>
+
+            </div>
+            <div class="nav-content">
+                <ul class="tabs tabs-transparent blue">
+                    <li class="tab"><a class="white-text" href="#friend">Friends</a></li>
+                    <li class="tab"><a class="active white-text" href="#request">Pending Requests</a></li>
+                    <li class="tab"><a class="white-text" href="#pending">Requests Sent</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <br/><br/>
+
+    <div id="friend" class="col s12"></div>
+    <div id="request" class="col s12"></div>
+    <div id="pending" class="col s12"></div>
+
+
+    <!-- Main Content Start -->
+
+    <br/><br/><br/>
+    <div class="divider"></div>
+    <div class="row">
+        <div class="center z-depth-2 white-text blue lighten-1" style="font-size: 24px">Recommendations</div>
+        <div id="friendRec"></div>
+    </div>
+
+    <!--  Main Content End  -->
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.button-collapse').sideNav();
+        })
+    </script>
+#end
