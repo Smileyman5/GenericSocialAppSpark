@@ -2,7 +2,7 @@ package app
 
 import app.index.IndexController
 import app.login.LoginController
-import app.profile.{FriendsController, ProfileController}
+import app.profile.{ProfileFriendsController, ProfileController}
 import app.users.{UserController, UserFriendController}
 import app.util.{Filters, Path}
 import spark.Spark._
@@ -24,7 +24,7 @@ object Main {
 
     path(Path.Web.HOME, () => {
       get("/", ProfileController.displayPage())
-      get(Path.Web.FRIENDS, FriendsController.displayPage())
+      get(Path.Web.FRIENDS, ProfileFriendsController.displayPage())
     })
 
     path(Path.Web.USER, () => {

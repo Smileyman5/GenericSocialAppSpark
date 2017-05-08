@@ -10,7 +10,7 @@ import spark.{ModelAndView, Route}
 /**
   * Created by alex on 5/7/2017.
   */
-object FriendsController {
+object ProfileFriendsController {
   def displayPage(): Route = (request, _) => {
     if (request.session().attribute("currentUser") == null)
       request.session().attribute("currentUser", "Alex")

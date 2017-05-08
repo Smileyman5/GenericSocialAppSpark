@@ -1,7 +1,5 @@
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import org.apache.commons.collections.map.HashedMap;
-import spark.*;
+import spark.ModelAndView;
+import spark.Route;
 import spark.template.velocity.VelocityTemplateEngine;
 
 import java.sql.*;
