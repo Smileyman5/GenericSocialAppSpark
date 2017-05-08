@@ -12,8 +12,9 @@ import spark.Spark.{delete, port, path}
 object Main {
   def main(args: Array[String]): Unit = {
     port(8080)
+
     path("/", () => {
-      get("", (req, res) => "Hello")
+//      get("", (req, res) => "Hello")
       post(":username/:password", LoginController.POST)
     })
 

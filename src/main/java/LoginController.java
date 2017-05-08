@@ -1,29 +1,34 @@
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import spark.*;
+import spark.template.velocity.*;
 
 import java.sql.*;
+import java.util.HashMap;
 
 /**
  * Created by JON on 5/6/2017.
  */
+
 public class LoginController {
 
+    public static Route GET = (req, res) -> {
+        return new VelocityTemplateEngine().render(new ModelAndView(new HashMap(), "templates/index.vtl"));
+    };
+
     public static Route POST = (req, res) -> {
-        JsonObject json = new JsonObject();
-        String username = req.params("username");
-        String password = req.params("password");
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        String username = req.queryParams("username");
+        String password = req.queryParams("password");
 
         if (checkLogin(username, password)) {
-            json.add("message", new JsonPrimitive("true"));
             req.session().attribute("username", username);
             updateStats(username, password);
+            res.redirect("/register");
+            return null;
         }
         else {
-            json.add("message", new JsonPrimitive("Username/Password incorrect"));
+            map.put("message", "Username/Password incorrect");
         }
-
-        return json;
+        return new VelocityTemplateEngine().render(new ModelAndView(map, "templates/index.vtl"));
     };
 
     private static boolean checkLogin(String username, String password) {
@@ -47,6 +52,14 @@ public class LoginController {
 
         }
         return false;
+
+//        try {
+//            ResultSet set = DatabaseQuery.executeQuery("SELECT * FROM Users WHERE BINARY username='" + username + "' AND BINARY password='" + password + "'");
+//            return set.next();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return false;
     }
 
     private static void updateStats(String username, String password) {
@@ -68,6 +81,7 @@ public class LoginController {
             }
 
         }
+//        DatabaseQuery.execute("UPDATE Users SET login=login+1 WHERE username='" + username + "';");
     }
 
 }

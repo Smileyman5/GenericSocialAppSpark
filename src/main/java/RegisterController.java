@@ -1,35 +1,44 @@
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import spark.*;
+import spark.template.velocity.VelocityTemplateEngine;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 
 /**
  * Created by JON on 5/6/2017.
  */
 public class RegisterController {
 
+    public static Route GET = (req, res) -> {
+        return new VelocityTemplateEngine().render(new ModelAndView(new HashMap(), "templates/register.vtl"));
+    };
+
     public static Route POST = (req, res) -> {
-        JsonObject json = new JsonObject();
-        String username = req.params("username");
-        String password = req.params("password");
-        String rePassword = req.params("rePassword");
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        String username = req.queryParams("username");
+        String password = req.queryParams("password");
+        String rePassword = req.queryParams("repassword");
+
+        System.out.println("Pass: " + password);
+        System.out.println("RePass: " + rePassword);
 
         if (!password.equals(rePassword)) {
-            json.add("message", new JsonPrimitive("Passwords do not match"));
+            map.put("message", "Passwords do not match");
         }
         else if (createUser(username, password)) {
             req.session().attribute("username", username);
-            json.add("message", new JsonPrimitive("true"));
+            map.put("message", "User created");
+//            res.redirect("/home");
+//            return null;
         }
         else {
-            json.add("message", new JsonPrimitive("User Already Exists"));
+            map.put("message", "User Already Exists");
         }
 
-        return json;
+        return new VelocityTemplateEngine().render(new ModelAndView(map, "templates/register.vtl"));
     };
 
     private static boolean createUser(String username, String password) {
@@ -41,7 +50,6 @@ public class RegisterController {
             state = con.createStatement();
             state.execute("INSERT INTO Users VALUES ('" + username + "', '" + password + "', '', '', '', '', 0)");
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
             return false;
         } finally {
             try {
@@ -52,5 +60,6 @@ public class RegisterController {
             }
         }
         return true;
+//        return DatabaseQuery.execute("INSERT INTO Users VALUES ('" + username + "', '" + password + "', '', '', '', '', 0)");
     }
 }

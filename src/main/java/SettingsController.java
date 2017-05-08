@@ -1,8 +1,11 @@
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import org.apache.commons.collections.map.HashedMap;
 import spark.*;
+import spark.template.velocity.VelocityTemplateEngine;
 
 import java.sql.*;
+import java.util.HashMap;
 
 /**
  * Created by JON on 5/6/2017.
@@ -10,21 +13,21 @@ import java.sql.*;
 public class SettingsController {
 
     public static Route GET = (req, res) -> {
-        JsonObject json = new JsonObject();
-        String username = req.params("username");
-
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        String username = req.session().attribute("username");
         Connection con = null;
         Statement state = null;
+        map.put("username", username);
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "root", "");
             state = con.createStatement();
             ResultSet set = state.executeQuery("SELECT * FROM users WHERE username = '" + username + "'");
             if (set.next()) {
-                json.add("firstname", new JsonPrimitive(set.getString("first_name")));
-                json.add("lastname", new JsonPrimitive(set.getString("last_name")));
-                json.add("birthday", new JsonPrimitive(set.getString("birthday")));
-                json.add("gender", new JsonPrimitive(set.getString("gender")));
+                map.put("fname", set.getString("first_name"));
+                map.put("lname", set.getString("last_name"));
+                map.put("bday", set.getString("birthday"));
+                map.put("gender", set.getString("gender"));
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -37,26 +40,26 @@ public class SettingsController {
             }
         }
 
-        return json;
+        return new VelocityTemplateEngine().render(new ModelAndView(map, "templates/settings.vtl"));
     };
 
     public static Route POST = (req, res) -> {
-        JsonObject json = new JsonObject();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         String username = req.session().attribute("username");
-        String password = req.params("password");
-        String firstname = req.params("firstname");
-        String lastname = req.params("lastname");
-        String birthday = req.params("birthday");
-        String gender = req.params("gender");
+        String password = req.queryParams("password");
+        String firstname = req.queryParams("firstname");
+        String lastname = req.queryParams("lastname");
+        String birthday = req.queryParams("birthday");
+        String gender = req.queryParams("gender");
 
         if (update(username, password, firstname, lastname, birthday, gender)) {
-            json.add("message", new JsonPrimitive("Updated"));
+            map.put("message", "Updated");
         }
         else {
-            json.add("message", new JsonPrimitive("Failed to Update"));
+            map.put("message", "Failed to Update");
         }
 
-        return json;
+        return new VelocityTemplateEngine().render(new ModelAndView(map, "templates/settings.vtl"));
     };
 
     private static boolean update(String username, String password, String firstname, String lastname, String birthday, String gender) {
