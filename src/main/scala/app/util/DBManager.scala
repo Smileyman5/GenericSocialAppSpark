@@ -13,7 +13,7 @@ object DBManager {
 
   def queryAllUsers(): util.ArrayList[String] = {
     Class.forName("com.mysql.jdbc.Driver")
-    val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "smileyman5", "password")
+    val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", username, password)
     val stmt = con.createStatement
 
     val result = stmt.executeQuery("Select username from users;")
@@ -28,7 +28,7 @@ object DBManager {
 
   def queryRecommendations(username: String): util.HashSet[String] = {
     Class.forName("com.mysql.jdbc.Driver")
-    val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "smileyman5", "password")
+    val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", this.username, password)
     val stmt = con.createStatement
 
     val friendsRes = stmt.executeQuery("Select * from friends where friend='" + username + "';")
@@ -71,10 +71,10 @@ object DBManager {
 
   def getConfirmedJson(user: String): util.ArrayList[String] = {
     Class.forName("com.mysql.jdbc.Driver")
-    val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "smileyman5", "password")
+    val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", username, password)
     val stmt = con.createStatement
 
-    val result = stmt.executeQuery("Select * from friends where username='" + username + "' and status='Confirmed';")
+    val result = stmt.executeQuery("Select * from friends where username='" + user + "' and status='Confirmed';")
     val list = new util.ArrayList[String]()
     while (result.next())
       list.add(result.getString("friend"))
@@ -87,10 +87,10 @@ object DBManager {
 
   def getPendingJson(user: String): util.ArrayList[String] =  {
     Class.forName("com.mysql.jdbc.Driver")
-    val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "smileyman5", "password")
+    val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", username, password)
     val stmt = con.createStatement
 
-    val result = stmt.executeQuery("Select * from friends where username='" + username + "' and status='Pending';")
+    val result = stmt.executeQuery("Select * from friends where username='" + user + "' and status='Pending';")
     val list = new util.ArrayList[String]()
     while (result.next())
       list.add(result.getString("friend"))
@@ -103,10 +103,10 @@ object DBManager {
 
   def getRequestedJson(user: String): util.ArrayList[String] = {
     Class.forName("com.mysql.jdbc.Driver")
-    val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "smileyman5", "password")
+    val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", username, password)
     val stmt = con.createStatement
 
-    val result = stmt.executeQuery("Select * from friends where friend='" + username + "' and status='Pending';")
+    val result = stmt.executeQuery("Select * from friends where friend='" + user + "' and status='Pending';")
     val list = new util.ArrayList[String]()
     while (result.next())
       list.add(result.getString("username"))
