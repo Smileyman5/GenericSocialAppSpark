@@ -13,8 +13,4 @@ object LoginController {
     ViewUtil.render(request, new java.util.HashMap(), Path.Template.LOGIN)
   }
 
-  def login(): Route = (_, _) => {
-    ""
-  }
-
 }

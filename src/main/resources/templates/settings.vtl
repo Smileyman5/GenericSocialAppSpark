@@ -93,13 +93,13 @@
 
                 </li>
 
-                <li><a href="/profile">Profile</a></li>
+                <li><a href="$WebPath.HOME()">Profile</a></li>
 
-                <li><a href="/profile/friends">Friends</a></li>
+                <li><a href="$WebPath.HOME()$WebPath.FRIENDS()">Friends</a></li>
 
-                <li><a href="/profile/settings">Settings</a></li>
+                <li><a href="$WebPath.HOME()$WebPath.SETTINGS()">Settings</a></li>
 
-                <li><a class="red-text" href="/">Logout</a></li>
+                <li><a class="red-text" href="$WebPath.LOGOUT()">Logout</a></li>
 
             </ul>
 
@@ -123,11 +123,11 @@
 
                 </li>
 
-                <li><a href="/profile/friends">Friends</a></li>
+                <li><a href="$WebPath.HOME()$WebPath.FRIENDS()">Friends</a></li>
 
                 <li><a href="#">Settings</a></li>
 
-                <li><a href="/">Logout</a></li>
+                <li><a href="$WebPath.LOGOUT()">Logout</a></li>
 
             </ul>
 
@@ -135,7 +135,7 @@
 
 
 
-            <a class="brand-logo left" href="/profile">Hello, $username!</a>
+            <a class="brand-logo left" href="$WebPath.HOME()">Hello, $username!</a>
 
 
 

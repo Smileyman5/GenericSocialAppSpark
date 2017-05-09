@@ -12,8 +12,14 @@ import spark.Route
   */
 object ProfileFriendsController {
 
-  def displayPage(): Route = (request, _) => {
-    ViewUtil.render(request, new util.HashMap(), Path.Template.HOME_FRIENDS)
+  def displayPage(): Route = (request, response) => {
+    if (authenicateUser(request))
+      ViewUtil.render(request, new util.HashMap(), Path.Template.HOME_FRIENDS)
+    else
+    {
+      response.redirect(Path.Web.LOGIN)
+      ""
+    }
   }
 
   def getJsonRecommendation: Route = (request, response) => {

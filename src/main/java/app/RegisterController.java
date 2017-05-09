@@ -1,10 +1,8 @@
-import spark.*;
-import spark.template.velocity.VelocityTemplateEngine;
+package app;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import app.util.ViewUtil;
+import spark.Route;
+
 import java.util.HashMap;
 
 /**
@@ -13,7 +11,7 @@ import java.util.HashMap;
 public class RegisterController {
 
     public static Route GET = (req, res) -> {
-        return new VelocityTemplateEngine().render(new ModelAndView(new HashMap(), "templates/register.vtl"));
+        return ViewUtil.render(req, new HashMap<>(), "templates/register.vtl");
     };
 
     public static Route POST = (req, res) -> {
@@ -31,14 +29,14 @@ public class RegisterController {
         else if (createUser(username, password)) {
             req.session().attribute("username", username);
             map.put("message", "User created");
-//            res.redirect("/home");
-//            return null;
+            res.redirect("/home");
+            return null;
         }
         else {
             map.put("message", "User Already Exists");
         }
 
-        return new VelocityTemplateEngine().render(new ModelAndView(map, "templates/register.vtl"));
+        return ViewUtil.render(req, map, "templates/register.vtl");
     };
 
     private static boolean createUser(String username, String password) {

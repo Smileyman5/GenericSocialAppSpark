@@ -1,4 +1,4 @@
 #parse("/velocity/userLayout.vm")
 #@mainLayout()
-
+    <div id="profilePosts" style="margin-bottom: 50px"></div>
 #end

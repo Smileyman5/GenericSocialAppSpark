@@ -1,3 +1,7 @@
+package app;
+
+import app.util.DBManager;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -11,7 +15,7 @@ public class DatabaseQuery {
         Statement state = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", DBManager.username(), DBManager.password());
             state = con.createStatement();
             state.execute(sqlQuery);
         } catch (SQLException | ClassNotFoundException e) {
@@ -35,7 +39,7 @@ public class DatabaseQuery {
         ArrayList<String> list = new ArrayList<String>();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", "root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", DBManager.username(), DBManager.password());
             state = con.createStatement();
             list = buildList(state.executeQuery(sqlQuery), value);
         } catch (SQLException | ClassNotFoundException e) {

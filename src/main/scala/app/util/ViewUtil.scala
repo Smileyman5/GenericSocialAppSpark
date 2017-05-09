@@ -1,5 +1,7 @@
 package app.util
 
+import java.util
+
 import app.util.RequestUtil._
 import org.apache.velocity.app._
 import org.eclipse.jetty.http._
@@ -10,9 +12,6 @@ object ViewUtil { // Renders a template given a model and a request
   // The request is needed to check the user session for language settings
   // and to see if the user is logged in
   def render(request: Request, model: java.util.Map[String, AnyRef], templatePath: String): String = {
-    if (getSessionCurrentUser(request) == null)
-      request.session().attribute("username", "Alex")
-
     model.put("currentUser", getSessionCurrentUser(request))
     model.put("WebPath", Path.Web)
     strictVelocityEngine.render(new ModelAndView(model, templatePath))
@@ -22,7 +21,10 @@ object ViewUtil { // Renders a template given a model and a request
     if (!clientAcceptsJson(request)) {
       def foo(request: Request, response: Response) = {
         response.status(HttpStatus.NOT_FOUND_404)
-        render(request, new java.util.HashMap[String, AnyRef], Path.Template.NOT_FOUND)
+        val model = new util.HashMap[String, AnyRef]()
+        model.put("WebPath", Path.Web)
+        model.put("displayedUser", "No One Here")
+        strictVelocityEngine.render(new ModelAndView(model, Path.Template.NOT_FOUND))
       }
 
       foo(request, response)

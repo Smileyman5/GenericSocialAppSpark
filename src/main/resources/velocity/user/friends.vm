@@ -1,4 +1,4 @@
-#parse("/velocity/userLayout.vm")
+#parse("/velocity/userFriendLayout.vm")
 #@mainLayout()
-
+    <div id="friend" class="col s12"></div>
 #end

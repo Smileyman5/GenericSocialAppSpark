@@ -1,7 +1,8 @@
-import spark.*;
-import spark.template.velocity.*;
+package app;
 
-import java.sql.*;
+import app.util.ViewUtil;
+import spark.Route;
+
 import java.util.HashMap;
 
 /**
@@ -11,7 +12,8 @@ import java.util.HashMap;
 public class LoginController {
 
     public static Route GET = (req, res) -> {
-        return new VelocityTemplateEngine().render(new ModelAndView(new HashMap(), "templates/index.vtl"));
+        req.session(true).removeAttribute("username");
+        return ViewUtil.render(req, new HashMap<>(), "templates/index.vtl");
     };
 
     public static Route POST = (req, res) -> {
@@ -22,13 +24,13 @@ public class LoginController {
         if (checkLogin(username, password)) {
             req.session().attribute("username", username);
             updateStats(username, password);
-            res.redirect("/register");
+            res.redirect("/home");
             return null;
         }
         else {
             map.put("message", "Username/Password incorrect");
         }
-        return new VelocityTemplateEngine().render(new ModelAndView(map, "templates/index.vtl"));
+        return ViewUtil.render(req, map, "templates/index.vtl");
     };
 
     private static boolean checkLogin(String username, String password) {
@@ -54,7 +56,7 @@ public class LoginController {
 //        return false;
 
 //        try {
-//            ResultSet set = DatabaseQuery.executeQuery("SELECT * FROM Users WHERE BINARY username='" + username + "' AND BINARY password='" + password + "'");
+//            ResultSet set = app.DatabaseQuery.executeQuery("SELECT * FROM Users WHERE BINARY username='" + username + "' AND BINARY password='" + password + "'");
 //            return set.next();
 //        } catch (SQLException e) {
 //            e.printStackTrace();

@@ -1,5 +1,6 @@
 package app.profile
 
+import app.util.RequestUtil._
 import app.util.{Path, ViewUtil}
 import spark.Route
 
@@ -8,11 +9,13 @@ import spark.Route
   */
 object ProfileMainController {
 
-  def displayPage(): Route = (request, _) => {
-    ViewUtil.render(request, new java.util.HashMap(), Path.Template.HOME_PROFILE)
-  }
-
-  def updateUser(): Route = (_, _) => {
-    ""
+  def displayPage(): Route = (request, response) => {
+    if (authenicateUser(request))
+      ViewUtil.render(request, new java.util.HashMap(), Path.Template.HOME_PROFILE)
+    else
+    {
+      response.redirect(Path.Web.LOGIN)
+      ""
+    }
   }
 }

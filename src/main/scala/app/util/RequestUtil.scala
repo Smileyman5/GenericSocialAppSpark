@@ -7,8 +7,16 @@ import spark.Request
   */
 object RequestUtil {
 
+  def authenicateUser(request: Request): Boolean = {
+    !(request.session().isNew || request.session().attribute("username") == null)
+  }
+
   def getQueryUsername(request: Request): String = {
     request.params("username")
+  }
+
+  def getQueryComment(request: Request): String = {
+    request.params("comment")
   }
 
   def getSessionCurrentUser(request: Request): String = {

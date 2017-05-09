@@ -1,9 +1,10 @@
 package app
 
+import app.login.LoginController
 import app.pages.PostsController
 import app.profile.{ProfileFriendsController, ProfileMainController, ProfileSettingsController}
 import app.users.{UserController, UserFriendController}
-import app.util.{Filters, Path, ViewUtil}
+import app.util.{Filters, Path, RequestUtil, ViewUtil}
 import spark.Spark._
 
 /**
@@ -17,13 +18,13 @@ object Main {
 
     // Set up before-filters (called before each get/post)
     before("*", Filters.addTrailingSlashes)
-    before("*", Filters.removeDuplicateSlashes)
+    before("*", Filters.removeDuplicateSlashes())
 
-    redirect.get(Path.Web.INDEX,  Path.Web.LOGIN)
-    redirect.get(Path.Web.LOGOUT,  Path.Web.LOGIN)
+    redirect.get(Path.Web.LOGIN,  Path.Web.INDEX)
+    redirect.get(Path.Web.LOGOUT,  Path.Web.INDEX)
 
-    get (Path.Web.LOGIN,           LoginController.GET)
-    post(Path.Web.LOGIN,           LoginController.POST)
+    get (Path.Web.INDEX,           LoginController.GET)
+    post(Path.Web.INDEX,           LoginController.POST)
 
     get (Path.Web.REGISTER,        RegisterController.GET)
     post(Path.Web.REGISTER,        RegisterController.POST)
@@ -31,10 +32,10 @@ object Main {
 
     path(Path.Web.HOME, () => {
       get    (Path.Web.INDEX,      ProfileMainController.displayPage())
-      post   (Path.Web.INDEX,      ProfileMainController.updateUser())
 
       get    (Path.Web.POST,       PostsController.getAllPostsByName)
       post   (Path.Web.POST,       PostsController.post())
+      post   (Path.Web.POSTCOL,    PostsController.addCommentOrLike())
       delete (Path.Web.POST,       PostsController.removePost())
 
       get    (Path.Web.FRIENDS,    ProfileFriendsController.displayPage())
@@ -50,6 +51,7 @@ object Main {
     path(Path.Web.USER, () => {
       get    (Path.Web.UINDEX,     UserController.displayPage())
       get    (Path.Web.UFRIENDS,   UserFriendController.displayPage())
+      get    (Path.Web.UPOST,      PostsController.getAllPostsByNameForUser)
     })
 
     path(Path.Web.RESTFUL, () => {

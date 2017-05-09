@@ -1,4 +1,16 @@
 #parse("/velocity/profileLayout.vm")
 #@mainLayout()
-    <h1>Hello World</h1>
+    <div class="row">
+        <form class="col s12" action="/home/post/" enctype='text/plain' method="post">
+            <div class="row">
+                <div class="input-field col s12">
+
+                    <input name="comment" class="materialize-textarea" id="icon_prefix2" style="overflow: hidden; padding-right: .5em;" spellcheck="true" type="text" value="" autocomplete="off">
+                    <label for="icon_prefix2">Message</label>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="profilePosts" style="margin-bottom: 50px"></div>
 #end

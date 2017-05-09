@@ -1,4 +1,4 @@
-#parse("/velocity/profileLayout.vm")
+#parse("/velocity/userLayout.vm")
 #@mainLayout()
-    <h3 style="text-align: center">Sorry, but the page you were looking for could not be found. :/</h3>
+    <h3 style="text-align: center">Sorry, but this is not the page you are looking for... *Wave of hand* O_o</h3>
 #end

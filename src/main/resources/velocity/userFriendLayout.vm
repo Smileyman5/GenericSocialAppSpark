@@ -1,7 +1,7 @@
 #macro(mainLayout)
 <html>
 <head>
-    <title>Title</title>
+    <title>Friends</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
@@ -10,60 +10,20 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <style>
+        .tabs .indicator {
+            background-color: white;
+            height: 5px;
+        }
+    </style>
+
     <script>
+        /**
+         * Created by alex on 5/8/2017.
+         */
         window.onload = function WindowLoad(event) {
-            getPosts()
+            getProfile();
         };
-
-        function getComments(post) {
-            let comments = post['comments'];
-            let html = "";
-            for (index in comments) {
-                html += "               <div style='padding: 0; margin: 0; height: 2px' class='gray divider'></div>" +
-                        "               <div style='padding: 0 0 0 5px; margin: 0; text-align: left'>" + comments[index]['username'] + "</div>\n" +
-                        "               <div style='text-align: left; padding: 0 0 0 20px; font-size:18px'>" + comments[index]['comment'] + "</div>\n ";
-            }
-            return html;
-        }
-
-        function getPosts() {
-            let req = new XMLHttpRequest();
-            req.onreadystatechange = function() {
-                if (req.readyState === 4 && req.status === 200) {
-                    console.log(req.responseText)
-                    let res = JSON.parse(req.responseText);
-                    document.getElementById('profilePosts').innerHTML = "<br/><br/><div class='container'>" +
-                            "   <div class='row'>\n";
-
-                    for (index in res)
-                        document.getElementById('profilePosts').innerHTML +=
-                                `<div class="z-depth-2 center" style="margin-left: 10%; width: 80%; margin-top: 30px">
-                                <img width="24" height="24" class="circle left" style="padding: 5px 0 0 5px" alt="" src="https://www.drupal.org/files/profile_default.jpg">
-                                   <h5 class="icon_prefix" style="padding-left: 32px; margin: 0; text-align: left">` + res[index].username + `</h5>
-                                       <div class="black divider" style="padding: 0; margin: 0; height: 1px"></div>
-                                       <p class="center">` + res[index].message_body + `</p>
-                                   <p class="bottom" style="font-size: 8px; text-align: right; padding-right: 3px"> ` + res[index].time_stamp + `</p>
-                                       <div class="gray divider" style="padding: 0; margin: 0; height: 2px"></div>
-                                           <form class="col s12" action="/posting/addCommentOrLike" method="post">
-                                               <div class="input-field col s12 row">
-                                                   <input name="postId" type="hidden" value="` + res[index].post_id + `">
-                                                   <input name="comment" class="materialize-textarea" id="icon_prefix2" style="overflow: hidden; padding: 0 .5em 0 0; width: 90%; font-size: 20px" spellcheck="on" type="text" value="" autocomplete="off">
-                                                   <label for="icon_prefix2"><i class="tiny material-icons">comment</i>Comment</label>
-                                               </div>
-                                           </form>` +
-                                "          <div class='comment' style='inline-block'> " +
-                                getComments(res[index]) +
-                                "          </div>\n" +
-                                "   </div>\n";
-
-                    document.getElementById('profilePosts').innerHTML += "   </div>\n" +
-                            "</div>\n";
-                }
-            };
-            req.open("GET", "http://localhost:8080/user/post/$displayedUser", true);
-            req.accept = "application/json";
-            req.send(null);
-        }
 
         function search(name, item) {
             let req = new XMLHttpRequest();
@@ -76,6 +36,42 @@
                 }
             };
             req.open("GET", "http://localhost:8080/restful/search/" + name, true);
+            req.accept = "application/json";
+            req.send(null);
+        }
+
+        function formatC(j) {
+            let json = j['friend'];
+            let list = "<br/><br/><div class='container'>" +
+                    "   <div class='row'>\n";
+            for (index in json) {
+                list += "   <div class='col s12 m4 z-depth-2'>" +
+                        "       <div class='icon-block'>" +
+                        "           <h2 class='center'><img src=\"https://www.drupal.org/files/profile_default.jpg\" alt=\"\" class=\"circle\" width='42' height='42'></h2>\n" +
+                        "           <h5 class='center'>" + json[index].toString() + "</h5>\n" +
+                        "       </div>\n" +
+                        "   </div>\n";
+            }
+            list += "   </div>\n" +
+                    "</div>\n";
+            return list;
+        }
+
+        function getProfile() {
+            let req = new XMLHttpRequest();
+            req.onreadystatechange = function() {
+                if (req.readyState == 4 && req.status == 200) {
+                    let res = JSON.parse(req.responseText);
+
+                    document.getElementById('friend').innerHTML = "";
+
+                    document.getElementById('friend').innerHTML = (res.friend.length != 0) ? formatC(res) : "<p class='center blue-text' style='font-size: 24px'>No Friends Yet :/</p>";
+                    if (res.message !== null && res.message !== undefined)
+                        document.getElementsByClassName('search-results').innerHTML = res.message;
+                }
+            };
+            req.open("GET", "http://localhost:8080/restful/profile/$currentUser", true);
+            req.accept = "application/json";
             req.send(null);
         }
 
