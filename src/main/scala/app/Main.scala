@@ -19,11 +19,11 @@ object Main {
     before("*", Filters.addTrailingSlashes)
     before("*", Filters.removeDuplicateSlashes)
 
-    redirect.get(Path.Web.INDEX,  Path.Web.LOGIN)
-    redirect.get(Path.Web.LOGOUT,  Path.Web.LOGIN)
+    redirect.get(Path.Web.LOGIN,  Path.Web.INDEX)
+    redirect.get(Path.Web.LOGOUT,  Path.Web.INDEX)
 
-    get (Path.Web.LOGIN,           LoginController.GET)
-    post(Path.Web.LOGIN,           LoginController.POST)
+    get (Path.Web.INDEX,           LoginController.GET)
+    post(Path.Web.INDEX,           LoginController.POST)
 
     get (Path.Web.REGISTER,        RegisterController.GET)
     post(Path.Web.REGISTER,        RegisterController.POST)

@@ -4,6 +4,7 @@ import app.util.DBManager;
 import app.util.ViewUtil;
 import spark.Route;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.HashMap;
 
@@ -46,11 +47,16 @@ public class SettingsController {
     public static Route POST = (req, res) -> {
         HashMap<String, Object> map = new HashMap<String, Object>();
         String username = req.session().attribute("username");
-        String password = req.queryParams("password");
-        String firstname = req.queryParams("firstname");
-        String lastname = req.queryParams("lastname");
-        String birthday = req.queryParams("birthday");
-        String gender = req.queryParams("gender");
+        String password = req.queryParams("password").trim();
+        String firstname = req.queryParams("firstName").trim();
+        String lastname = req.queryParams("lastName").trim();
+        String birthday = req.queryParams("birthday").trim();
+        String gender = req.queryParams("gender").trim();
+
+        map.put("fname", firstname);
+        map.put("lname", lastname);
+        map.put("bday", birthday);
+        map.put("gender", gender);
 
         if (update(username, password, firstname, lastname, birthday, gender)) {
             map.put("message", "Updated");
@@ -63,34 +69,23 @@ public class SettingsController {
     };
 
     private static boolean update(String username, String password, String firstname, String lastname, String birthday, String gender) {
-        if ((!password.equals("") && password != null)
-                && (!firstname.equals("") && firstname != null)
-                && (!lastname.equals("") && lastname != null)
-                && (!birthday.equals("") && birthday != null)
-                && ((gender.equals("") || gender.equals("Male") || gender.equals("Female")) && gender != null))
+        if (!((firstname != null && !firstname.equals(""))
+                && (lastname != null && !lastname.equals(""))
+                && (birthday != null && !birthday.equals(""))
+                && (gender != null && (gender.equals("") || gender.equals("Male") || gender.equals("Female"))))) {
             return false;
-
-        Connection con = null;
-        Statement state = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", DBManager.username(), DBManager.password());
-            state = con.createStatement();
-            state.execute("UPDATE Users SET password='" + password + "' WHERE username='" + username + "'");
-            state.execute("UPDATE Users SET firstname='" + firstname + "' WHERE username='" + username + "'");
-            state.execute("UPDATE Users SET lastname='" + lastname + "' WHERE username='" + username + "'");
-            state.execute("UPDATE Users SET birthday='" + birthday + "' WHERE username='" + username + "'");
-            state.execute("UPDATE Users SET gender='" + gender + "' WHERE username='" + username + "'");
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (state != null) { state.close(); }
-                if (con != null) { con.close(); }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
+
+        String sqlQuery = "UPDATE Users SET ";
+        if (!password.equals("") && password != null)
+            sqlQuery += " password='" + password + "', ";
+        sqlQuery += "first_name='" + firstname + "', ";
+        sqlQuery += "last_name='" + lastname + "', ";
+        sqlQuery += "birthday='" + birthday + "', ";
+        sqlQuery += "gender='" + gender + "' ";
+        sqlQuery += "WHERE username='" + username + "';";
+        DatabaseQuery.execute(sqlQuery);
+
         return true;
     }
 
