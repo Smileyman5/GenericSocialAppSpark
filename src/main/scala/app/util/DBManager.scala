@@ -26,12 +26,12 @@ object DBManager {
     list
   }
 
-  def queryRecommendations(username: String): util.HashSet[String] = {
+  def queryRecommendations(user: String): util.HashSet[String] = {
     Class.forName("com.mysql.jdbc.Driver")
     val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", this.username, password)
     val stmt = con.createStatement
 
-    val friendsRes = stmt.executeQuery("Select * from friends where friend='" + username + "';")
+    val friendsRes = stmt.executeQuery("Select * from friends where friend='" + user + "';")
     val friends = new util.HashSet[String]()
     val recommendations = new util.HashSet[String]()
 
@@ -42,7 +42,7 @@ object DBManager {
     friends.forEach(friend => {
       val recommendationRes = stmt.executeQuery("Select friend from friends where username ='" + friend + "';")
       while (recommendationRes.next())
-        if (!friends.contains(recommendationRes.getString("friend")) && recommendationRes.getString("friend") != username)
+        if (!friends.contains(recommendationRes.getString("friend")) && recommendationRes.getString("friend") != user)
           recommendations.add(recommendationRes.getString("friend"))
     })
 
@@ -50,7 +50,7 @@ object DBManager {
     {
       val everyone = stmt.executeQuery("Select * from users;")
       while (everyone.next())
-          if (everyone.getString("username") != username)
+          if (everyone.getString("username") != user)
             recommendations.add(everyone.getString("username"))
       everyone.close()
     }

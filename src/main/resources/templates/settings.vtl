@@ -135,7 +135,7 @@
 
 
 
-            <a class="brand-logo left" href="$WebPath.HOME()">Hello, $username!</a>
+            <a class="brand-logo left" href="$WebPath.HOME()">Hello, $currentUser!</a>
 
 
 
@@ -163,7 +163,7 @@
 
 
 
-<form name="settingsForm" class="center-on-small-only" id="settingsForm" style="margin-left: 25%; width: 50%" action="/profile/settings" method="post"><input name="_method" id="_method" type="hidden" value="PUT">
+<form name="settingsForm" class="center-on-small-only" id="settingsForm" style="margin-left: 25%; width: 50%" action="/home/settings/" method="post"><input name="_method" id="_method" type="hidden" value="POST">
 
     <div class="fieldcontain">
 
