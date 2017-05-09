@@ -40,6 +40,25 @@ object PostsController {
     ViewUtil.render(request, new util.HashMap[String, AnyRef](), Path.Template.HOME_PROFILE)
   }
 
+  def addCommentOrLikeU(): Route = (request, response) => {
+    val payload = new Scanner(request.body())
+    val postLoad = payload.nextLine()
+    val commentLoad = payload.nextLine()
+    val postId = Integer.parseInt(postLoad.substring(postLoad.indexOf("=") + 1))
+    val comment = commentLoad.substring(commentLoad.indexOf("=") + 1)
+    DBManager.executeCommentOnPost(getSessionCurrentUser(request), comment, 1, postId)
+    response.status(HttpStatus.OK_200)
+
+    val displayedUser = getQueryUsername(request)
+    if (DBManager.userExists(displayedUser)) {
+      val model = new util.HashMap[String, AnyRef]()
+      model.put("displayedUser", displayedUser)
+      ViewUtil.render(request, model, Path.Template.USER_PROFILE)
+    } else {
+      response.redirect(Path.Web.LOGIN); ""
+    }
+  }
+
   def removePost(): Route = (request, response) => {
     val postLoad = JsonTransformer.fromJson(request.body(), classOf[ID])
     DBManager.executeRemovePostById(postLoad.postId)

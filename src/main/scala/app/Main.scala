@@ -1,10 +1,9 @@
 package app
 
-import app.login.LoginController
 import app.pages.PostsController
 import app.profile.{ProfileFriendsController, ProfileMainController, ProfileSettingsController}
 import app.users.{UserController, UserFriendController}
-import app.util.{Filters, Path, RequestUtil, ViewUtil}
+import app.util.{Filters, Path, ViewUtil}
 import spark.Spark._
 
 /**
@@ -52,6 +51,7 @@ object Main {
       get    (Path.Web.UINDEX,     UserController.displayPage())
       get    (Path.Web.UFRIENDS,   UserFriendController.displayPage())
       get    (Path.Web.UPOST,      PostsController.getAllPostsByNameForUser)
+      post   (Path.Web.POSTCOLU,   PostsController.addCommentOrLikeU())
     })
 
     path(Path.Web.RESTFUL, () => {

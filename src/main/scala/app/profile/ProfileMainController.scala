@@ -14,8 +14,7 @@ object ProfileMainController {
       ViewUtil.render(request, new java.util.HashMap(), Path.Template.HOME_PROFILE)
     else
     {
-      response.redirect(Path.Web.LOGIN)
-      ""
+      response.redirect(Path.Web.LOGIN); ""
     }
   }
 }

@@ -21,6 +21,7 @@ object Path {
     @Getter val LOGIN = "/login/"
     @Getter val POST = "/post/"
     @Getter val POSTCOL = "/post/addCommentOrLike/"
+    @Getter val POSTCOLU = "/post/addCommentOrLike/:username/"
     @Getter val UPOST = "/post/:username/"
     @Getter val RESTFUL = "/restful/"
     @Getter val RPROFILE = "/profile/:username/"

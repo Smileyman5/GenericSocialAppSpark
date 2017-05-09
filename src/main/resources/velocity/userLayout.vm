@@ -44,7 +44,7 @@
                                        <p class="center">` + res[index].message_body + `</p>
                                    <p class="bottom" style="font-size: 8px; text-align: right; padding-right: 3px"> ` + res[index].time_stamp + `</p>
                                        <div class="gray divider" style="padding: 0; margin: 0; height: 2px"></div>
-                                           <form class="col s12" action="/posting/addCommentOrLike" method="post">
+                                           <form class="col s12" action="/user/post/addCommentOrLike/$displayedUser/" enctype='text/plain' method="post">
                                                <div class="input-field col s12 row">
                                                    <input name="postId" type="hidden" value="` + res[index].post_id + `">
                                                    <input name="comment" class="materialize-textarea" id="icon_prefix2" style="overflow: hidden; padding: 0 .5em 0 0; width: 90%; font-size: 20px" spellcheck="on" type="text" value="" autocomplete="off">
