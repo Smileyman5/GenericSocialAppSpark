@@ -48,7 +48,7 @@
                 list += "   <div class='col s12 m4 z-depth-2'>" +
                         "       <div class='icon-block'>" +
                         "           <h2 class='center'><img src=\"https://www.drupal.org/files/profile_default.jpg\" alt=\"\" class=\"circle\" width='42' height='42'></h2>\n" +
-                        "           <h5 class='center'>" + json[index].toString() + "</h5>\n" +
+                        "           <a href='$WebPath.USER()" + json[index].toString() + "'><h5 class='center'>" + json[index].toString() + "</h5></a>\n" +
                         "       </div>\n" +
                         "   </div>\n";
             }
@@ -62,7 +62,6 @@
             req.onreadystatechange = function() {
                 if (req.readyState == 4 && req.status == 200) {
                     let res = JSON.parse(req.responseText);
-
                     document.getElementById('friend').innerHTML = "";
 
                     document.getElementById('friend').innerHTML = (res.friend.length != 0) ? formatC(res) : "<p class='center blue-text' style='font-size: 24px'>No Friends Yet :/</p>";
@@ -70,7 +69,7 @@
                         document.getElementsByClassName('search-results').innerHTML = res.message;
                 }
             };
-            req.open("GET", "http://localhost:8080/restful/profile/$currentUser", true);
+            req.open("GET", "http://localhost:8080/restful/profile/$displayedUser", true);
             req.accept = "application/json";
             req.send(null);
         }

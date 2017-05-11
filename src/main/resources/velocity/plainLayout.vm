@@ -37,7 +37,7 @@
                         document.getElementById('friendRec').innerHTML += "   <div class='col s12 m4 z-depth-2'>" +
                                 "       <div class='icon-block'>" +
                                 "           <h2 class='center'><img src=\"https://www.drupal.org/files/profile_default.jpg\" alt=\"\" class=\"circle\" width='42' height='42'></h2>\n" +
-                                "           <h5 class='center'>" + res[index] + "</h5>\n" +
+                                "           <a href='$WebPath.USER()" + res[index] + "'><h5 class='center'>" + res[index] + "</h5></a>\n" +
                                 "           <p class='center'>" +
                                 "               <a onclick=\"updateFriends('" + res[index] + "/', 'POST')\" class=\"btn-floating halfway-fab waves-effect waves-light blue\"><i class=\"material-icons\">add</i></a>" +
                                 "           </p>\n" +
@@ -76,7 +76,7 @@
                 list += "   <div class='col s12 m4 z-depth-2'>" +
                         "       <div class='icon-block'>" +
                         "           <h2 class='center'><img src=\"https://www.drupal.org/files/profile_default.jpg\" alt=\"\" class=\"circle\" width='42' height='42'></h2>\n" +
-                        "           <h5 class='center'>" + json[index].toString() + "</h5>\n" +
+                        "           <a href='$WebPath.USER()" + json[index].toString() + "'><h5 class='center'>" + json[index].toString() + "</h5></a>\n" +
                         "       </div>\n" +
                         "   </div>\n";
             }
@@ -93,7 +93,7 @@
                 list += "   <div class='col s12 m4 z-depth-2'>" +
                         "       <div class='icon-block'>" +
                         "           <h2 class='center'><img src=\"https://www.drupal.org/files/profile_default.jpg\" alt=\"\" class=\"circle\" width='42' height='42'></h2>\n" +
-                        "           <h5 class='center'>" + json[index].toString() + "</h5>\n" +
+                        "           <a href='$WebPath.USER()" + json[index].toString() + "'><h5 class='center'>" + json[index].toString() + "</h5></a>\n" +
                         "           <p class='center'>" +
                         "               <a onclick=\"updateFriends('" + json[index].toString() + "', 'PUT')\" class=\"btn-floating halfway-fab waves-effect waves-light blue\"><i class=\"material-icons\">add</i></a>" +
                         "               <a onclick=\"updateFriends('" + json[index].toString() + "', 'DELETE')\" class=\"btn-floating halfway-fab waves-effect waves-light red\"><i class=\"material-icons\">remove</i></a>\n" +
@@ -115,7 +115,7 @@
                 list += "   <div class='col s12 m4 z-depth-2'>" +
                         "       <div class='icon-block'>" +
                         "           <h2 class='center'><img src=\"https://www.drupal.org/files/profile_default.jpg\" alt=\"\" class=\"circle\" width='42' height='42'></h2>\n" +
-                        "           <h5 class='center'>" + json[index].toString() + "</h5>\n" +
+                        "           <a href='$WebPath.USER()" + json[index].toString() + "'><h5 class='center'>" + json[index].toString() + "</h5></a>\n" +
                         "       </div>\n" +
                         "   </div>\n";
             }

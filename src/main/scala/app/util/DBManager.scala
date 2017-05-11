@@ -8,8 +8,8 @@ import java.util
   */
 object DBManager {
 
-  val username = "root"
-  val password = ""
+  val username = "smileyman5"
+  val password = "password"
 
   def queryAllUsers(): util.ArrayList[String] = {
     Class.forName("com.mysql.jdbc.Driver")
@@ -31,12 +31,12 @@ object DBManager {
     val con = DriverManager.getConnection("jdbc:mysql://localhost:3306/social_data2?useSSL=false", this.username, password)
     val stmt = con.createStatement
 
-    val friendsRes = stmt.executeQuery("Select * from friends where friend='" + user + "';")
+    val friendsRes = stmt.executeQuery("Select * from friends where username='" + user + "';")
     val friends = new util.HashSet[String]()
     val recommendations = new util.HashSet[String]()
 
     while (friendsRes.next())
-      friends.add(friendsRes.getString("username"))
+      friends.add(friendsRes.getString("friend"))
     friendsRes.close()
 
     friends.forEach(friend => {
@@ -50,7 +50,7 @@ object DBManager {
     {
       val everyone = stmt.executeQuery("Select * from users;")
       while (everyone.next())
-          if (everyone.getString("username") != user)
+          if (everyone.getString("username") != user && !friends.contains(everyone.getString("username")))
             recommendations.add(everyone.getString("username"))
       everyone.close()
     }
