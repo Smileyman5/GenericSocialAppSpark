@@ -1,6 +1,7 @@
 package app;
 
 import app.util.ViewUtil;
+import com.google.gson.*;
 import spark.Route;
 
 import java.util.HashMap;
@@ -15,25 +16,24 @@ public class RegisterController {
     };
 
     public static Route POST = (req, res) -> {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        String username = req.queryParams("username");
-        String password = req.queryParams("password");
-        String rePassword = req.queryParams("repassword");
+        JsonObject json = new JsonObject();
+        JsonObject element = ((JsonObject) new JsonParser().parse(req.body()));
+        String username = element.get("username").getAsString();
+        String password = element.get("password").getAsString();
+        String rePassword = element.get("repassword").getAsString();
 
         if (!password.equals(rePassword)) {
-            map.put("message", "Passwords do not match");
+            json.add("message", new JsonPrimitive("Passwords do not match"));
         }
         else if (createUser(username, password)) {
             req.session().attribute("username", username);
-            map.put("message", "User created");
-            res.redirect("/home");
-            return null;
+            json.add("message", new JsonPrimitive("User Created"));
         }
         else {
-            map.put("message", "User Already Exists");
+            json.add("message", new JsonPrimitive("User Already Exists"));
         }
 
-        return ViewUtil.render(req, map, "templates/register.vtl");
+        return json.toString();
     };
 
     private static boolean createUser(String username, String password) {

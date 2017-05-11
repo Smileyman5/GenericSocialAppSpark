@@ -8,8 +8,8 @@ import java.util
   */
 object DBManager {
 
-  val username = "smileyman5"
-  val password = "password"
+  val username = "root"
+  val password = ""
 
   def queryAllUsers(): util.ArrayList[String] = {
     Class.forName("com.mysql.jdbc.Driver")
@@ -63,8 +63,8 @@ object DBManager {
     val map = new util.HashMap[String, Any]()
 
     map.put("friend", getConfirmedJson(username))
-    map.put("request", getRequestedJson(username))
-    map.put("pending", getPendingJson(username))
+    map.put("request", getPendingJson(username))
+    map.put("pending", getRequestedJson(username))
 
     map
   }

@@ -39,34 +39,45 @@
             const req = new XMLHttpRequest();
             req.onreadystatechange = function () {
                 if (req.readyState === 4 && req.status === 200) {
+                    var res = JSON.parse(req.responseText);
                     document.getElementById('plabel').className = "active";
-                    document.getElementById('password').value = req.responseText;
+                    document.getElementById('message').innerHTML = res.message;
+                    document.getElementById('username').value = res.username;
+                    document.getElementById('password').value = res.password;
                 }
             };
-            req.open("GET", "http://localhost:8080/" + document.getElementById('username').value, true);
-            req.send(null);
+            payload = {
+                "username": document.getElementById("username").value
+            }
+            req.open("POST", "http://localhost:8080/restful/login/", true);
+            req.accept = "application/json";
+            req.send(JSON.stringify(payload));
         }
-        //        function login() {
-        //            if (document.getElementById("username").value.length > 1 && document.getElementById("password").value.length > 1) {
-        //                var req = new XMLHttpRequest();
-        //                req.onreadystatechange = function () {
-        //                    if (req.readyState === 4 && req.status === 200) {
-        //                        var res = JSON.parse(req.responseText);
-        //                        if (res.failed) {
-        //                            document.getElementById('message').innerHTML = "<p style='color: red'>Username/Password is incorrect</font><br><br>";
-        //                        }
-        //                        else if (res.loggedin) {
-        //                            updateStats();
-        //                        }
-        //                        document.getElementById('password').value = ""
-        //                    }
-        //                };
-        //                req.open("POST", "http://localhost:8080/ + "document.getElementById("username").value
-        //                                          + "/" + document.getElementById("password").value, true);
-        //                req.send(null);
-        //            }
-        //        }
-        //        }
+
+            function login() {
+                if (document.getElementById("username").value.length > 1 && document.getElementById("password").value.length > 1) {
+                    var req = new XMLHttpRequest();
+                    req.onreadystatechange = function () {
+                        if (req.readyState === 4 && req.status === 200) {
+                            var res = JSON.parse(req.responseText);
+                            if (res.failed) {
+                                document.getElementById('message').innerHTML = "Username/Password is incorrect";
+                            }
+                            else  {
+                                window.location.assign("http://localhost:8080/home");
+                            }
+                            document.getElementById('password').value = "";
+                        }
+                    };
+                    var payload = {
+                        "username": document.getElementById("username").value,
+                        "password": document.getElementById("password").value
+                    }
+                    req.open("POST", "http://localhost:8080/", true);
+                    req.accept = "application/json";
+                    req.send(JSON.stringify(payload));
+                }
+            }
     </script>
 </head>
 
@@ -87,7 +98,7 @@
                 </div>
             </div>
 
-            <form action="/" method="POST">
+            <form action="javascript:login()">
                 <div class='row'>
                     <div class='input-field col s12'>
                         <input class='validate' type='text' name='username' id='username' minlength="2" required/>
@@ -107,7 +118,7 @@
 
                 <br />
                 <div class='row'>
-                    <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>Login</button>
+                    <input type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo' value="Login" />
                 </div>
             </form>
         </div>

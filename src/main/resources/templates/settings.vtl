@@ -27,34 +27,24 @@
 
 
 
-        function getUserData() {
-
+        function update() {
             let req = new XMLHttpRequest();
-
             req.onreadystatechange = function() {
-
                 if (req.readyState === 4 && req.status === 200) {
-
                     let res = JSON.parse(req.responseText);
-
-                    console.log(res);
-
-                    document.getElementById('firstName').value = res['fname'];
-
-                    document.getElementById('lastName').value = res['lname'];
-
-                    document.getElementById('birthday').value = res['bday'];
-
-                    document.getElementById('gender').value = res['gender'];
-
+                    document.getElementById("message").innerHTML = res.message;
                 }
-
             };
-
-            req.open("GET", "http://localhost:8080/stats/", true);
-
-            req.send(null);
-
+            var payload = {
+                "password": document.getElementById("password").value,
+                "firstName": document.getElementById("firstName").value,
+                "lastName": document.getElementById("lastName").value,
+                "birthday": document.getElementById("birthday").value,
+                "gender": document.getElementById("gender").value
+            }
+            req.open("POST", "http://localhost:8080/home/settings/", true);
+            req.accept = "application/json";
+            req.send(JSON.stringify(payload));
         }
 
     </script>
@@ -163,13 +153,13 @@
 
 
 
-<form name="settingsForm" class="center-on-small-only" id="settingsForm" style="margin-left: 25%; width: 50%" action="/home/settings/" method="post"><input name="_method" id="_method" type="hidden" value="POST">
+<form action="javascript:update()" name="settingsForm" class="center-on-small-only" id="settingsForm" style="margin-left: 25%; width: 50%">##<input name="_method" id="_method" type="hidden" value="POST">
 
     <div class="fieldcontain">
 
         <label class="active" for="password">Password</label>
 
-        <input name="password" type="password" placeholder="Change your password.">
+        <input name="password" type="password" id="password" placeholder="Change your password.">
 
 
 

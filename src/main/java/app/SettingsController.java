@@ -2,6 +2,9 @@ package app;
 
 import app.util.DBManager;
 import app.util.ViewUtil;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import spark.Route;
 
 import javax.xml.crypto.Data;
@@ -45,27 +48,23 @@ public class SettingsController {
     };
 
     public static Route POST = (req, res) -> {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        JsonObject json = new JsonObject();
+        JsonObject element = ((JsonObject) new JsonParser().parse(req.body()));
         String username = req.session().attribute("username");
-        String password = req.queryParams("password").trim();
-        String firstname = req.queryParams("firstName").trim();
-        String lastname = req.queryParams("lastName").trim();
-        String birthday = req.queryParams("birthday").trim();
-        String gender = req.queryParams("gender").trim();
-
-        map.put("fname", firstname);
-        map.put("lname", lastname);
-        map.put("bday", birthday);
-        map.put("gender", gender);
+        String password = element.get("password").getAsString();
+        String firstname = element.get("firstName").getAsString();
+        String lastname = element.get("lastName").getAsString();
+        String birthday = element.get("birthday").getAsString();
+        String gender = element.get("gender").getAsString();
 
         if (update(username, password, firstname, lastname, birthday, gender)) {
-            map.put("message", "Updated");
+            json.add("message", new JsonPrimitive("Updated"));
         }
         else {
-            map.put("message", "Failed to Update");
+            json.add("message", new JsonPrimitive("Failed to Update"));
         }
 
-        return ViewUtil.render(req, map, "templates/settings.vtl");
+        return json;
     };
 
     private static boolean update(String username, String password, String firstname, String lastname, String birthday, String gender) {

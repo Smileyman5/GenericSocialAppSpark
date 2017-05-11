@@ -1,8 +1,13 @@
 package app;
 
 import app.util.ViewUtil;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import spark.Route;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -17,20 +22,41 @@ public class LoginController {
     };
 
     public static Route POST = (req, res) -> {
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        String username = req.queryParams("username");
-        String password = req.queryParams("password");
+        JsonObject json = new JsonObject();
+        JsonObject element = ((JsonObject) new JsonParser().parse(req.body()));
+        String username = element.get("username").getAsString();
+        String password = element.get("password").getAsString();
 
         if (checkLogin(username, password)) {
             req.session().attribute("username", username);
             updateStats(username, password);
-            res.redirect("/home");
-            return null;
+            json.add("failed", new JsonPrimitive(false));
         }
         else {
-            map.put("message", "Username/Password incorrect");
+            json.add("failed", new JsonPrimitive(true));
         }
-        return ViewUtil.render(req, map, "templates/index.vtl");
+        return json;
+    };
+
+    public static Route FORGOT = (req, res) -> {
+        JsonObject json = new JsonObject();
+
+        JsonObject element = ((JsonObject) new JsonParser().parse(req.body()));
+        String username = element.get("username").getAsString();
+
+        ArrayList<String> users = DatabaseQuery.executeQuery("SELECT * FROM Users WHERE username LIKE '%" + username + "%';", "username");
+        if (users.size() > 0) {
+            json.add("message", new JsonPrimitive(""));
+            json.add("username", new JsonPrimitive(users.get(0)));
+            json.add("password", new JsonPrimitive(DatabaseQuery.executeQuery("SELECT * FROM Users WHERE username='" + users.get(0) + "';", "password").get(0)));
+        }
+        else {
+            json.add("message", new JsonPrimitive("Please enter another username"));
+            json.add("username", new JsonPrimitive(username));
+            json.add("password", new JsonPrimitive(""));
+        }
+
+        return json;
     };
 
     private static boolean checkLogin(String username, String password) {

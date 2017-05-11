@@ -55,6 +55,7 @@ object Main {
     })
 
     path(Path.Web.RESTFUL, () => {
+      post   (Path.Web.LOGIN,      LoginController.FORGOT)
       get    (Path.Web.RPROFILE,   ProfileSettingsController.getJsonProfile)
       get    (Path.Web.RRECOMMEND, ProfileFriendsController.getJsonRecommendation)
       get    (Path.Web.RSEARCH,    ProfileFriendsController.getJsonSearch)
